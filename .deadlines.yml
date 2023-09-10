@@ -1,0 +1,8 @@
+- group:    Test
+  start:    01-09-2023 18:00
+  deadline: 31-12-2023 23:59
+  enabled: true
+  tasks:
+    - task: add
+      score: 0
+      url: https://gitlab.manytask.org/rust-ysda/public-2023-fall/-/tree/master/add
