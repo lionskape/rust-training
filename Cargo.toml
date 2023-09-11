@@ -6,3 +6,4 @@ members = [
     # Tools
     "tools/submit",
 ]
+resolver = "2"
