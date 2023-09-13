@@ -1,3 +1,15 @@
+- group:    Starters
+  start:    13-09-2023 19:30
+  deadline: 27-09-2023 19:30
+  enabled: true
+  tasks:
+    - task: comm
+      score: 100
+      url: https://gitlab.manytask.org/rust-ysda/public-2023-fall/-/tree/master/comm
+    - task: comm
+      score: 200
+      url: https://gitlab.manytask.org/rust-ysda/public-2023-fall/-/tree/master/perc
+
 - group:    Test
   start:    01-09-2023 18:00
   deadline: 31-12-2023 23:59

@@ -2,6 +2,8 @@
 members = [
     # Tasks
     "add",
+    "comm",
+    "perc",
 
     # Tools
     "tools/submit",
