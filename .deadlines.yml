@@ -6,7 +6,7 @@
     - task: comm
       score: 100
       url: https://gitlab.manytask.org/rust-ysda/public-2023-fall/-/tree/master/comm
-    - task: comm
+    - task: perc
       score: 200
       url: https://gitlab.manytask.org/rust-ysda/public-2023-fall/-/tree/master/perc
 
