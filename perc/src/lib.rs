@@ -2,9 +2,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+
 /// Represents a grid of boolean values.
 pub struct BoolGrid {
-    // TODO: your code here.
+    width: usize,
+    height: usize,
+    grid: Vec<Vec<bool>>,
 }
 
 impl BoolGrid {
@@ -15,8 +18,11 @@ impl BoolGrid {
     /// * `width` - grid width.
     /// * `height` - grid height.
     pub fn new(width: usize, height: usize) -> Self {
-        // TODO: your code here.
-        unimplemented!()
+        Self {
+            width,
+            height,
+            grid: vec![vec![false; width]; height],
+        }
     }
 
     /// Creates a new grid with every value initialized randomly.
@@ -28,20 +34,23 @@ impl BoolGrid {
     /// * `vacancy` - probability of any given value being equal
     /// to `false`.
     pub fn random(width: usize, height: usize, vacancy: f64) -> Self {
-        // TODO: your code here.
-        unimplemented!()
+        let mut g = BoolGrid::new(width, height);
+        for i in 0..height {
+            for j in 0..width {
+                g.grid[i][j] = rand::random();
+            }
+        }
+        return g;
     }
 
     /// Returns grid width.
     pub fn width(&self) -> usize {
-        // TODO: your code here.
-        unimplemented!()
+        self.width
     }
 
     /// Returns grid height.
     pub fn height(&self) -> usize {
-        // TODO: your code here.
-        unimplemented!()
+        self.height
     }
 
     /// Returns the current value of a given cell.
@@ -57,8 +66,13 @@ impl BoolGrid {
     /// If `x` or `y` is out of bounds, this method may panic
     /// (or return incorrect result).
     pub fn get(&self, x: usize, y: usize) -> bool {
-        // TODO: your code here.
-        unimplemented!()
+        if x > self.height() {
+            panic!("x is out of range")
+        }
+        if y > self.width() {
+            panic!("y is out of range")
+        }
+        return self.grid[x][y];
     }
 
     /// Sets a new value to a given cell.
@@ -79,7 +93,6 @@ impl BoolGrid {
     }
 
     // TODO: your code here.
-    unimplemented!()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +101,10 @@ impl BoolGrid {
 /// from any cell with `y` == 0 to any cell with `y` == `height` - 1.
 /// If the grid is empty (`width` == 0 or `height` == 0), it percolates.
 pub fn percolates(grid: &BoolGrid) -> bool {
-    // TODO: your code here.
-    unimplemented!()
+    if grid.width() == 0 || grid.height() == 0 {
+        return true;
+    }
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
