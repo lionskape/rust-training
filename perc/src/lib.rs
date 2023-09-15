@@ -117,7 +117,7 @@ pub fn percolates(grid: &BoolGrid) -> bool {
     let mut stack: Vec<(usize, usize)> = grid.grid[0]
         .iter()
         .enumerate()
-        .filter(|&(_, cell)| !*cell)
+        .filter(|&(_, &cell)| !cell)
         .map(|(i, _)| (0, i))
         .rev()
         .collect();
