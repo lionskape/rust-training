@@ -4,8 +4,10 @@ members = [
     "add",
     "comm",
     "perc",
+    "paperio",
 
     # Tools
     "tools/submit",
+    "paperio/tools/wasm-launcher",
 ]
 resolver = "2"

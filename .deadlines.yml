@@ -1,3 +1,13 @@
+- group:    Fun
+  start:    20-09-2023 19:30
+  deadline: 04-10-2023 19:30
+  second_deadline: 31-01-2024 23:59
+  enabled: true
+  tasks:
+    - task: paperio
+      score: 300
+      url: https://gitlab.manytask.org/rust-ysda/public-2023-fall/-/tree/master/paperio
+
 - group:    Starters
   start:    13-09-2023 19:30
   deadline: 27-09-2023 19:30
