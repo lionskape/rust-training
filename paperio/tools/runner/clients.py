@@ -38,6 +38,7 @@ class KeyboardClient(Client):
         }
 
     def __init__(self):
+        import pyglet
         self.last_pressed_button = pyglet.window.key.MOTION_LEFT
 
     def set_window(self, window):
@@ -58,6 +59,7 @@ class KeyboardClient(Client):
 class KeyboardClient2(KeyboardClient):
     @property
     def KEY_COMMAND_MAP(self):
+        import pyglet
         return {
             pyglet.window.key.A: CONSTS.LEFT,
             pyglet.window.key.D: CONSTS.RIGHT,
@@ -66,6 +68,7 @@ class KeyboardClient2(KeyboardClient):
         }
 
     def __init__(self, window):
+        import pyglet
         self.last_pressed_button = pyglet.window.key.A
 
         @window.event
