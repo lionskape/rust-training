@@ -366,7 +366,7 @@ class Game:
     def print_result(self):
         scores = {p.client.get_solution_id(): p.score for p in self.losers + self.players}
         winner_id = max(scores.keys(), key=lambda x: scores[x])
-        json.dump({"winner_id": winner_id}, sys.stdout)
+        print(f"winner_id:{winner_id}")
 
 
 class LocalGame(Game):

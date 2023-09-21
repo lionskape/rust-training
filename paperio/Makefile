@@ -4,7 +4,9 @@ PLAYER_TWO= aggressive.wasm
 PLAYER_THREE= coward.wasm
 PLAYER_FOUR= fool.wasm
 
-all: base check_deps build_wasm_launcher build_bot_release
+all: base check_deps test_games
+
+test_games: check_deps build_wasm_launcher build_bot_release
 	@for i in 1 2 3; do \
 		echo "Running game $${i}"; \
 		OUTPUT=$$(python3 ./tools/runner/localrunner.py --no-gui \
@@ -12,7 +14,7 @@ all: base check_deps build_wasm_launcher build_bot_release
 			-p2 "../target/release/wasm-launcher bots/${PLAYER_TWO}" \
 			-p3 "../target/release/wasm-launcher bots/${PLAYER_THREE}" \
 			-p4 "../target/release/wasm-launcher bots/${PLAYER_FOUR}"); \
-		if [ "$$(echo $$OUTPUT | tail -n 1 | grep player1)" ]; then \
+		if [ "$$(echo $$OUTPUT | grep "winner_id:player1")" ]; then \
 			echo "Game $${i} is OK"; \
 		else \
 			echo "Game $${i} is lost :("; \
