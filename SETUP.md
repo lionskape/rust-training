@@ -88,5 +88,7 @@
 1. Отправьте своё решение на сервер командой `make submit`. Ваш сабмит должен появиться по ссылке "SUBMITS" на [rust.manytask.org](https://rust.manytask.org).
 После успешного прохождения тестов вам должно начислиться 0 баллов в
 [таблице с баллами](https://docs.google.com/spreadsheets/d/1qetwX5q3fMc8Lw0LNwluWdsHBNX6jcJ8vUdMYQ05EoU).
+	* Если `make submit` падает с ошибкой сборки `openssl-sys`, значит, у вас не установлены заголовки libssl.
+	  На Ubuntu поставить их можно командой `sudo apt install libssl-dev`.
 
 Если на каком-то этапе у вас возникли проблемы - пишите в чат курса.
