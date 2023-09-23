@@ -1,2 +1,2 @@
-pyglet==1.5
+pyglet==1.5.27
 networkx==3.1
