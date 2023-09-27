@@ -5,6 +5,8 @@ members = [
     "comm",
     "perc",
     "paperio",
+    "ini",
+    "polka",
 
     # Tools
     "tools/submit",
