@@ -2,9 +2,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+use rand::{thread_rng, Rng};
+use std::{collections::VecDeque, vec};
+
 /// Represents a grid of boolean values.
 pub struct BoolGrid {
-    // TODO: your code here.
+    pub width: usize,
+    pub height: usize,
+    pub field: Vec<Vec<bool>>,
 }
 
 impl BoolGrid {
@@ -15,8 +20,11 @@ impl BoolGrid {
     /// * `width` - grid width.
     /// * `height` - grid height.
     pub fn new(width: usize, height: usize) -> Self {
-        // TODO: your code here.
-        unimplemented!()
+        Self {
+            width,
+            height,
+            field: vec![vec![false; width]; height],
+        }
     }
 
     /// Creates a new grid with every value initialized randomly.
@@ -28,20 +36,29 @@ impl BoolGrid {
     /// * `vacancy` - probability of any given value being equal
     /// to `false`.
     pub fn random(width: usize, height: usize, vacancy: f64) -> Self {
-        // TODO: your code here.
-        unimplemented!()
+        let mut field = vec![vec![false; width]; height];
+        // thread_rng().gen_bool(1. - vacancy)
+        for x in 0..width {
+            for y in 0..height {
+                field[y][x] = thread_rng().gen_bool(1. - vacancy);
+            }
+        }
+
+        Self {
+            width,
+            height,
+            field,
+        }
     }
 
     /// Returns grid width.
     pub fn width(&self) -> usize {
-        // TODO: your code here.
-        unimplemented!()
+        self.width
     }
 
     /// Returns grid height.
     pub fn height(&self) -> usize {
-        // TODO: your code here.
-        unimplemented!()
+        self.height
     }
 
     /// Returns the current value of a given cell.
@@ -57,8 +74,11 @@ impl BoolGrid {
     /// If `x` or `y` is out of bounds, this method may panic
     /// (or return incorrect result).
     pub fn get(&self, x: usize, y: usize) -> bool {
-        // TODO: your code here.
-        unimplemented!()
+        if (x >= self.width) || (y >= self.height) {
+            panic!("Check coordinates");
+        } else {
+            self.field[y][x]
+        }
     }
 
     /// Sets a new value to a given cell.
@@ -74,12 +94,12 @@ impl BoolGrid {
     /// If `x` or `y` is out of bounds, this method may panic
     /// (or set value to some other unspecified cell).
     pub fn set(&mut self, x: usize, y: usize, value: bool) {
-        // TODO: your code here.
-        unimplemented!()
+        if x >= self.width || y >= self.height {
+            panic!("Check coordinates");
+        } else {
+            self.field[y][x] = value;
+        }
     }
-
-    // TODO: your code here.
-    unimplemented!()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +108,47 @@ impl BoolGrid {
 /// from any cell with `y` == 0 to any cell with `y` == `height` - 1.
 /// If the grid is empty (`width` == 0 or `height` == 0), it percolates.
 pub fn percolates(grid: &BoolGrid) -> bool {
-    // TODO: your code here.
-    unimplemented!()
+    let field = &grid.field;
+
+    if field.is_empty() || field[0].is_empty() {
+        return true;
+    }
+
+    let height = grid.height;
+    let width = grid.width;
+
+    let directions = [(-1, 0), (1, 0), (0, -1), (0, 1)];
+    let mut visited = vec![vec![false; width]; height];
+    let mut queue = VecDeque::new();
+
+    for x in 0..width {
+        if !field[0][x] {
+            queue.push_back((0, x));
+            visited[0][x] = true;
+        }
+    }
+
+    while let Some((row, col)) = queue.pop_front() {
+        if row == height - 1 {
+            return true;
+        }
+
+        for (dr, dc) in directions.iter() {
+            let r = row as isize + dr;
+            let c = col as isize + dc;
+
+            if r >= 0 && r < height as isize && c >= 0 && c < width as isize {
+                let r = r as usize;
+                let c = c as usize;
+
+                if !visited[r][c] && !field[r][c] {
+                    queue.push_back((r, c));
+                    visited[r][c] = true;
+                }
+            }
+        }
+    }
+    false
 }
 
 ////////////////////////////////////////////////////////////////////////////////
