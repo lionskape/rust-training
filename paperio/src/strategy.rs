@@ -134,10 +134,14 @@ impl Strategy {
                     two_far_corners.push(c);
                 }
             }
-            if two_far_corners[0].0 == self.cur_path[0].0 && two_far_corners[0].1 == self.cur_path[0].1 {
+            if two_far_corners[0].0 == self.cur_path[0].0
+                && two_far_corners[0].1 == self.cur_path[0].1
+            {
                 self.cur_path.push(two_far_corners[1]);
                 self.cur_path.push(two_far_corners[0]);
-            } else if two_far_corners[1].0 == self.cur_path[0].0 && two_far_corners[1].1 == self.cur_path[0].1 {
+            } else if two_far_corners[1].0 == self.cur_path[0].0
+                && two_far_corners[1].1 == self.cur_path[0].1
+            {
                 self.cur_path.push(two_far_corners[0]);
                 self.cur_path.push(two_far_corners[1]);
             } else {
@@ -145,13 +149,15 @@ impl Strategy {
             }
             self.prev_score = *score;
         } else {
-            if self.cur_path.last().unwrap().0 == world.me().position.to_cell().0 && 
-            self.cur_path.last().unwrap().1 == world.me().position.to_cell().1 {
+            if self.cur_path.last().unwrap().0 == world.me().position.to_cell().0
+                && self.cur_path.last().unwrap().1 == world.me().position.to_cell().1
+            {
                 self.cur_path.pop();
             }
         }
-        return world.me().position.to_cell().direction_to(
-            Cell(self.cur_path.last().unwrap().0, self.cur_path.last().unwrap().1)
-        );
+        return world.me().position.to_cell().direction_to(Cell(
+            self.cur_path.last().unwrap().0,
+            self.cur_path.last().unwrap().1,
+        ));
     }
 }
