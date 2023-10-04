@@ -148,13 +148,12 @@ impl Strategy {
                 panic!("two_far_corners: two corner candites both match last corner path")
             }
             self.prev_score = *score;
-        } else {
-            if self.cur_path.last().unwrap().0 == world.me().position.to_cell().0
-                && self.cur_path.last().unwrap().1 == world.me().position.to_cell().1
-            {
-                self.cur_path.pop();
-            }
+        } else if self.cur_path.last().unwrap().0 == world.me().position.to_cell().0
+            && self.cur_path.last().unwrap().1 == world.me().position.to_cell().1
+        {
+            self.cur_path.pop();
         }
+
         return world.me().position.to_cell().direction_to(Cell(
             self.cur_path.last().unwrap().0,
             self.cur_path.last().unwrap().1,
