@@ -29,7 +29,7 @@ impl Strategy {
         if world.me().territory.iter().any(|p| {
             let c = p.to_cell();
             let me = world.me().position.to_cell();
-            return c.0 == me.0 && c.1 == me.1;
+            c.0 == me.0 && c.1 == me.1
         }) {
             self.cur_path.clear();
             eprintln!("on my territory");
@@ -96,26 +96,25 @@ impl Strategy {
                     .unwrap();
                 let mut score: i32 = 0;
                 for rect_cell in full_rectangle.iter() {
-                    if let Some(_) =
-                        world
-                            .me()
-                            .territory
-                            .iter()
-                            .map(|p| p.to_cell())
-                            .find(|my_ter_cell| {
-                                my_ter_cell.0 == rect_cell.0 && my_ter_cell.1 == rect_cell.1
-                            })
+                    if world
+                        .me()
+                        .territory
+                        .iter()
+                        .map(|p| p.to_cell())
+                        .any(|my_ter_cell| {
+                            my_ter_cell.0 == rect_cell.0 && my_ter_cell.1 == rect_cell.1
+                        })
                     {
                         // my territory costs nothing
                         score += 0;
-                    } else if let Some(_) = world
+                    } else if world
                         .iter_enemies()
                         .map(|(_, e)| -> Option<Cell> {
                             e.territory.iter().map(|p| p.to_cell()).find(|enemy_cell| {
                                 enemy_cell.0 == rect_cell.0 && enemy_cell.1 == rect_cell.1
                             })
                         })
-                        .find(|o| o.is_some())
+                        .any(|o| o.is_some())
                     {
                         score += 5;
                     } else {
@@ -151,7 +150,7 @@ impl Strategy {
                 .iter_cells()
                 .find(|c| c.0 == max_x && c.1 == min_y)
                 .unwrap();
-            let mut path_corners = vec![
+            let mut path_corners = [
                 (ul_cell.0, ul_cell.1),
                 (ur_cell.0, ur_cell.1),
                 (bl_cell.0, bl_cell.1),
