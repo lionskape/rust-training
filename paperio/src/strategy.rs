@@ -7,6 +7,12 @@ pub struct Strategy {
     cur_path: Vec<(i32, i32)>,
 }
 
+impl Default for Strategy {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Strategy {
     pub fn new() -> Self {
         Strategy {
