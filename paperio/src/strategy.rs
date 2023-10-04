@@ -19,13 +19,13 @@ impl Strategy {
         }
     }
 
-    fn current_map(my_territory: &Vec<Cell>, enemy_territory: &Vec<Vec<Cell>>) -> [[i32; 31]; 31] {
+    fn current_map(my_territory: &[Cell], enemy_territory: &[Vec<Cell>]) -> [[i32; 31]; 31] {
         let mut map = [[1; 31]; 31];
-        let _ = enemy_territory
+        enemy_territory
             .iter()
             .flat_map(|inner| inner.iter())
             .for_each(|c| map[c.0 as usize][c.1 as usize] = 5);
-        let _ = my_territory
+        my_territory
             .iter()
             .for_each(|c| map[c.0 as usize][c.1 as usize] = 0);
         map
@@ -106,7 +106,7 @@ impl Strategy {
                     }
                 }
                 let danger: i32 = perimeter_len - min_distance_to_perimeter;
-                rectangle_scores.push((score - danger*danger, perimeter));
+                rectangle_scores.push((score - danger * danger, perimeter));
             }
             rectangle_scores.sort_by(|a, b| a.0.cmp(&b.0));
             let (_, perimeter) = rectangle_scores.last().unwrap();
@@ -129,10 +129,9 @@ impl Strategy {
             self.cur_path.push((*path_corners[1].0, *path_corners[1].1));
             self.cur_path.push((*path_corners[3].0, *path_corners[3].1));
             self.cur_path.push((*path_corners[2].0, *path_corners[2].1));
-        } else {
-            if self.cur_path.last().unwrap().0 == me.0 && self.cur_path.last().unwrap().1 == me.1 {
-                self.cur_path.pop();
-            }
+        } else if self.cur_path.last().unwrap().0 == me.0 && self.cur_path.last().unwrap().1 == me.1
+        {
+            self.cur_path.pop();
         }
         if let Some(d) = world.me().direction {
             if d.opposite()
