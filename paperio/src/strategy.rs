@@ -19,7 +19,7 @@ impl Strategy {
         }
     }
 
-    fn current_map(my_territory: &[Cell], enemy_territory: &[Vec<Cell>]) -> [[i32; 31]; 31] {
+    fn current_map(my_territory: &[Cell], enemy_territory: &[Vec<Cell>]) -> [[i8; 31]; 31] {
         let mut map = [[1; 31]; 31];
         enemy_territory
             .iter()
@@ -33,7 +33,6 @@ impl Strategy {
 
     pub fn on_tick(&mut self, world: World) -> Direction {
         let me = world.me().position.to_cell();
-        eprintln!("{:?} - {:?}", me, self.cur_path);
         let my_territory: Vec<Cell> = world.me().territory.iter().map(|p| p.to_cell()).collect();
         let enemy_cells: Vec<Cell> = world
             .iter_enemies()
@@ -97,7 +96,7 @@ impl Strategy {
                 let mut ter: i32 = 0;
                 for i in min_x..=max_x {
                     for j in min_y..=max_y {
-                        ter += map[i as usize][j as usize];
+                        ter += map[i as usize][j as usize] as i32;
                     }
                 }
                 let bonus: i32 = world
@@ -129,17 +128,13 @@ impl Strategy {
                         .flat_map(|(_, e)| e.lines.iter().map(|p| p.to_cell()))
                     {
                         if c.0 == perim_cell.0 && c.1 == perim_cell.1 {
-                            line = 200;
+                            line = 50;
                         }
                     }
                 }
                 let danger: i32 =
                     perimeter_len - min_distance_to_perimeter.unwrap_or(perimeter_len);
                 let score: i32 = ter + line + bonus;
-                eprintln!(
-                    "score(ter({}) + bonus ({}) + line({}) = {}), danger({})",
-                    ter, bonus, line, score, danger,
-                );
                 rectangle_scores.push((score - danger * danger, perimeter));
             }
             rectangle_scores.sort_by(|a, b| a.0.cmp(&b.0));
