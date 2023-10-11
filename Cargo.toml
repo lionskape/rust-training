@@ -9,6 +9,7 @@ members = [
     "polka",
     "trust",
     "flatmap",
+    "pstack",
 
     # Tools
     "tools/submit",
