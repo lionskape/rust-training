@@ -8,6 +8,7 @@ members = [
     "ini",
     "polka",
     "trust",
+    "flatmap",
 
     # Tools
     "tools/submit",
