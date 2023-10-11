@@ -78,6 +78,6 @@ allowlist:
 ok:
 	@echo 'OK!'
 
-submit:
+submit: lint
 	cargo run --manifest-path ../tools/submit/Cargo.toml -- --task-path .
 	@echo 'OK!'
