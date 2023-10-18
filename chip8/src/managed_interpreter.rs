@@ -72,11 +72,6 @@ impl<R: RandomNumberGenerator> Platform for ManagedPlatform<R> {
         unimplemented!()
     }
 
-    fn clear_last_key_press(&mut self) {
-        // TODO: your code here.
-        unimplemented!()
-    }
-
     fn consume_key_press(&mut self) -> Option<Key> {
         // TODO: your code here.
         unimplemented!()

@@ -56,7 +56,6 @@ pub trait Platform {
     fn set_delay_timer(&mut self, value: Word);
     fn set_sound_timer(&mut self, value: Word);
     fn is_key_down(&self, key: Key) -> bool;
-    fn clear_last_key_press(&mut self);
     fn consume_key_press(&mut self) -> Option<Key>;
     fn get_random_word(&mut self) -> Word;
 }
@@ -161,4 +160,6 @@ pub trait Platform {
 
 Для этого теста вам придётся реализовать команду `Fx0A` - она ожидает нажатия какой-либо клавиши и записывает её номер в `vx`. Заметьте, что инструкция возвращает управление после того, как клавиша была отпущена.
 
-За эту функциональность отвечают функции `Platform` `.clear_last_key_press` и `.consume_key_press`. Первая очищает информацию о последней нажатой клавише, а вторая считывает информацию о последней нажатой клавише.
+За эту функциональность отвечает функция `Platform::consume_key_press()`.
+Она возвращает последнюю нажатую клавишу. При этом, если после последнего
+вызова этой функции не было нажато никакой клавишы, она возвращает `None`.

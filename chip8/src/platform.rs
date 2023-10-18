@@ -67,7 +67,6 @@ pub trait Platform {
     fn set_delay_timer(&mut self, value: Word);
     fn set_sound_timer(&mut self, value: Word);
     fn is_key_down(&self, key: Key) -> bool;
-    fn clear_last_key_press(&mut self);
     fn consume_key_press(&mut self) -> Option<Key>;
     fn get_random_word(&mut self) -> Word;
 }
