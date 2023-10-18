@@ -9,6 +9,10 @@ endef
 
 all: build base_no_miri ok
 
+build:
+	cargo build
+	cargo build --release
+
 build-runner:
 	cargo build --manifest-path ./tools/console-runner/Cargo.toml
 
