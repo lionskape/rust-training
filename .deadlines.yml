@@ -8,7 +8,7 @@
       score: 1
       url: https://gitlab.manytask.org/rust-ysda/public-2023-fall/-/tree/master/chip8
 
-- group:    Traits
+- group:    Generics & Pointers
   start:    11-10-2023 19:30
   deadline: 25-10-2023 19:30
   second_deadline: 31-01-2024 23:59
