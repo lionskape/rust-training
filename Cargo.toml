@@ -10,9 +10,11 @@ members = [
     "trust",
     "flatmap",
     "pstack",
+    "chip8",
 
     # Tools
     "tools/submit",
     "paperio/tools/wasm-launcher",
+    "chip8/tools/console-runner",
 ]
 resolver = "2"
