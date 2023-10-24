@@ -46,7 +46,7 @@ impl<K: Ord, V> FlatMap<K, V> {
         K: Borrow<B>,
     {
         if let Ok(ind) = self.0.binary_search_by(|(k, _)| k.borrow().cmp(key)) {
-            return Some(&self.0.get(ind).unwrap().1);
+            return Some(&self.0[ind].1);
         }
         None
     }
