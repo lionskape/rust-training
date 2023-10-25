@@ -11,6 +11,8 @@ members = [
     "flatmap",
     "pstack",
     "chip8",
+    "mpsc",
+    "fswalk",
 
     # Tools
     "tools/submit",
