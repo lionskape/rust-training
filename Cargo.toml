@@ -13,6 +13,8 @@ members = [
     "chip8",
     "mpsc",
     "fswalk",
+    "stdmacro",
+    "gc",
 
     # Tools
     "tools/submit",
