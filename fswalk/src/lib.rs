@@ -3,7 +3,6 @@
 use std::{
     fs::{self},
     io::{self, Error, ErrorKind, Read},
-    ops::Add,
     path::Path,
 };
 
@@ -44,12 +43,9 @@ impl<'a> Walker<'a> {
     fn rec_walk(path: &Path, callback: &mut [Box<Callback>]) -> io::Result<()> {
         if path.is_dir() {
             for entry in fs::read_dir(path)? {
-                if entry.is_err() {
-                    return Err(Error::new(ErrorKind::NotFound, "entry not found"));
-                }
-                let node = entry.unwrap();
+                let node = entry?;
                 let p = node.path();
-                let mut h: Handle = match (path.is_file(), path.is_dir()) {
+                let mut h: Handle = match (p.is_file(), p.is_dir()) {
                     (true, false) => Handle::File(FileHandle {
                         path: &p,
                         read: false,
@@ -60,10 +56,9 @@ impl<'a> Walker<'a> {
                     }),
                     _ => continue,
                 };
+                let mut limit: usize = 0;
                 for i in 0..callback.len() {
                     (callback[i])(&mut h);
-
-                    let mut limit: usize = 0;
 
                     let is_checked = if let Handle::Dir(ref mut d) = h {
                         let res = d.descend;
@@ -81,37 +76,22 @@ impl<'a> Walker<'a> {
                         if limit < i {
                             callback.swap(limit, i);
                         }
-                        limit = limit.add(1);
+                        limit += 1;
                     }
-                    if limit != 0 {
-                        if let Handle::Dir(ref d) = h {
-                            match Self::rec_walk(d.path(), &mut callback[..limit]) {
-                                Ok(()) => {}
-                                Err(err) => {
-                                    return Err(err);
-                                }
-                            }
-                        } else if let Handle::File(ref f) = h {
-                            let mut file = match fs::File::open(f.path()) {
-                                Ok(ok) => ok,
-                                Err(err) => {
-                                    return Err(err);
-                                }
-                            };
-                            let mut buffer = Vec::new();
-                            // read the whole file
-                            match file.read_to_end(&mut buffer) {
-                                Ok(_) => {}
-                                Err(err) => {
-                                    return Err(err);
-                                }
-                            }
-                            for cb in callback[..limit].iter_mut() {
-                                (cb)(&mut Handle::Content {
-                                    file_path: f.path(),
-                                    content: &buffer,
-                                });
-                            }
+                }
+                if limit != 0 {
+                    if let Handle::Dir(ref mut d) = h {
+                        Self::rec_walk(d.path(), &mut callback[..limit])?;
+                    } else if let Handle::File(ref mut f) = h {
+                        let mut file = fs::File::open(f.path())?;
+                        let mut buffer = Vec::new();
+                        // read the whole file
+                        file.read_to_end(&mut buffer)?;
+                        for cb in callback[..limit].iter_mut() {
+                            (cb)(&mut Handle::Content {
+                                file_path: f.path(),
+                                content: &buffer,
+                            });
                         }
                     }
                 }
