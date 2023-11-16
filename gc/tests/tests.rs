@@ -13,6 +13,9 @@ struct Int {
 }
 
 #[derive(Default, Scan)]
+struct ListNode(i32, Option<Gc<RefCell<ListNode>>>);
+
+#[derive(Default, Scan)]
 struct Node {
     next: Option<Gc<RefCell<Node>>>,
 }
@@ -74,14 +77,14 @@ fn test_self_referrential() {
 fn test_cyclic_list() {
     let mut arena = Arena::new();
 
-    let tail = arena.alloc(RefCell::new(Node::default()));
+    let tail = arena.alloc(RefCell::new(ListNode(-1, None)));
     let mut head = tail.clone();
-    for _ in 0..2 {
-        head = arena.alloc(RefCell::new(Node {
-            next: Some(head.clone()),
-        }));
+    for index in 0..2 {
+        head = arena.alloc(RefCell::new(ListNode (
+            index, Some(head.clone()),
+        )));
     }
-    tail.borrow().borrow_mut().next = Some(head.clone());
+    tail.borrow().borrow_mut().1 = Some(head.clone());
 
     assert_eq!(arena.allocation_count(), 3);
     drop(head);
