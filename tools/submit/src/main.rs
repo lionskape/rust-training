@@ -76,7 +76,7 @@ fn push_task(
 ) -> Result<()> {
     // NB: push using git as a subcommand is way less tedious than using libgit2.
     let branch_name = match subtask_name {
-        Some(subtask) => format!("submit/{}/{}", task_name, subtask),
+        Some(subtask) => format!("submit/{}@{}", subtask, task_name),
         None => format!("submit/{}", task_name),
     };
     let status = Command::new("git")
