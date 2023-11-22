@@ -14,10 +14,7 @@ pub struct Task(Pin<Box<dyn Future<Output = ()> + Send>>);
 
 impl Task {
     pub fn id(&self) -> TaskId {
-        TaskId(
-            self.0.deref() as &dyn Future<Output = ()> as *const dyn Future<Output = ()>
-                as *const () as usize,
-        )
+        TaskId(self.0.deref() as *const dyn Future<Output = ()> as *const () as usize)
     }
 
     pub fn poll(&mut self, cx: &mut Context) -> Poll<()> {
