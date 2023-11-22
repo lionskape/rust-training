@@ -18,6 +18,7 @@ members = [
     "orm",
     "pargrep",
     "tcp_proxy",
+    "rio",
 
     # Tools
     "tools/submit",
