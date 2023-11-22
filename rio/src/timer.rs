@@ -1,9 +1,10 @@
 use crate::runtime::RuntimeHandle;
 
-use futures::{future::poll_fn, task::AtomicWaker};
+use futures::task::AtomicWaker;
 
 use std::{
     collections::BinaryHeap,
+    future::poll_fn,
     ops::Add,
     sync::{
         atomic::{AtomicBool, Ordering},
@@ -23,10 +24,12 @@ pub async fn sleep(duration: Duration) {
         .timer_handle
         .add_entry(timestamp);
     poll_fn(move |cx| {
+        // NB: it is important to register waker before checking current time
+        // to avoid race condition.
+        entry.waker.register(cx.waker());
         if Instant::now() >= timestamp {
             return Poll::Ready(());
         }
-        entry.waker.register(cx.waker());
         Poll::Pending
     })
     .await
