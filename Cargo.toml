@@ -19,6 +19,7 @@ members = [
     "pargrep",
     "tcp_proxy",
     "rio",
+    "babencoin",
 
     # Tools
     "tools/submit",
