@@ -10,7 +10,7 @@ bench: ../target/debug/comm_cpp ../target/release/comm_cpp
 	cargo criterion
 
 ../target/debug/comm_cpp:
-	clang++ src/main.cpp -o ../target/debug/comm_cpp -O0 -g
+	clang++ src/main.cpp -o ../target/debug/comm_cpp -std=c++11 -O0 -g
 
 ../target/release/comm_cpp:
-	clang++ src/main.cpp -o ../target/release/comm_cpp -O3
+	clang++ src/main.cpp -o ../target/release/comm_cpp -std=c++11 -O3
