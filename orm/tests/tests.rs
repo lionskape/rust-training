@@ -246,6 +246,27 @@ fn test_delete_borrowed() {
 }
 
 #[test]
+fn test_delete_borrowed_unborrowed() {
+    let mut conn = Connection::open_in_memory().unwrap();
+
+    let tx = conn.new_transaction().unwrap();
+    let tx_user = tx
+        .create(User {
+            name: "James".into(),
+            picture: b"pvyvsdasyoa8dgcsdg"[..].into(),
+            visits: 120,
+            balance: 370.,
+            is_admin: false,
+        })
+        .unwrap();
+    let tx_user_2 = tx.get::<User>(tx_user.id()).unwrap();
+
+    let _r1 = tx_user.borrow();
+    drop(_r1);
+    tx_user_2.delete();
+}
+
+#[test]
 fn test_missing_column() {
     let path = NamedTempFile::new().unwrap().into_temp_path();
 
