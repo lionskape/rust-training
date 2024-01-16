@@ -8,7 +8,7 @@ use std::{
 #[test]
 fn test_simple() {
     let mut v = ArrayVec::<i32, 2>::new();
-    assert!(size_of_val(&v) == 2 * size_of::<i32>() + size_of::<usize>());
+    assert_eq!(size_of_val(&v), 2 * size_of::<i32>() + size_of::<usize>());
 
     assert_eq!(v.pop(), None);
     assert_eq!(v.push(1), Ok(()));
