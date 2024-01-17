@@ -345,3 +345,40 @@ fn test_concurrent_wake() {
         .unwrap();
     assert_eq!(poll_count.load(Ordering::Relaxed), 2);
 }
+
+#[test]
+fn test_concurrent_wake_has_no_missing_polls() {
+    let runtime = rio::Runtime::new_multi_thread(2);
+    let poll_count = Arc::new(AtomicU64::new(0));
+    let (polled_sender, polled_receiver) = sync::mpsc::channel::<()>();
+    let (resume_sender, resume_receiver) = sync::mpsc::channel::<()>();
+    let waker = Arc::new(AtomicWaker::new());
+
+    runtime.spawn(poll_fn({
+        let poll_count = poll_count.clone();
+        let waker = waker.clone();
+        move |cx| {
+            let prev_poll_count = poll_count.fetch_add(1, Ordering::Relaxed);
+            waker.register(cx.waker());
+            polled_sender.send(()).unwrap();
+            if prev_poll_count == 0 {
+                resume_receiver.recv().unwrap();
+            }
+            Poll::<()>::Pending
+        }
+    }));
+    resume_sender.send(()).unwrap();
+
+    let wake_count = 1000000;
+    for i in 0..wake_count {
+        polled_receiver
+            .recv_timeout(Duration::from_secs(1))
+            .expect(&format!("failed to recv message from poll #{}", i));
+        waker.wake();
+    }
+    polled_receiver
+        .recv_timeout(Duration::from_secs(1))
+        .expect(&format!("failed to recv message from poll #{}", wake_count));
+
+    assert_eq!(poll_count.load(Ordering::Relaxed), wake_count + 1);
+}
