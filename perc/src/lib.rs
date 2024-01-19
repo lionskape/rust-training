@@ -84,8 +84,11 @@ impl BoolGrid {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/// Returns `true` if the given grid percolates. That is, if there is a path
-/// from any cell with `y` == 0 to any cell with `y` == `height` - 1.
+/// Returns `true` if the given grid percolates. That is, if there is at least
+/// one pair of cells `(x0, 0)`, `(x1, grid.height() - 1)`, such that there is
+/// a path between these cells, the grid percolates.
+/// The path should only consist of vacant cells (`grid.get(x, y) == 0`).
+/// One is only allowed to move left, right, up and down.
 /// If the grid is empty (`width` == 0 or `height` == 0), it percolates.
 pub fn percolates(grid: &BoolGrid) -> bool {
     // TODO: your code here.
