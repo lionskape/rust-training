@@ -1,4 +1,5 @@
 **/*.code-workspace
+**/.idea
 **/.vscode
 **/target
 **/test_artifacts
