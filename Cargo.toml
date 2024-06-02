@@ -19,6 +19,8 @@ members = [
     "pargrep",
     "tcp_proxy",
     "rio",
+    "babencoin",
+    "arrayvec",
 
     # Tools
     "tools/submit",
