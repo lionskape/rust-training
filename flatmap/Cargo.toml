@@ -11,3 +11,6 @@ rand = "0.8"
 [[bench]]
 name = "benches"
 harness = false
+
+[dependencies]
+criterion = "0.3"
